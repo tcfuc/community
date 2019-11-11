@@ -7,6 +7,7 @@ https://spring.io/guides/gs/serving-web-content/
 
 https://elasticsearch.cn/
 
-git@github.com:tcfuc/community.git
+https://spring.io/guides/gs/serving-web-content/
+
 
 ## 工具
