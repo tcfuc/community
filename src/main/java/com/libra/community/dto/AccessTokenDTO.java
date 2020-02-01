@@ -1,4 +1,4 @@
-package com.tcfuc.community.dto;
+package com.libra.community.dto;
 
 public class AccessTokenDTO {
     private String client_id;

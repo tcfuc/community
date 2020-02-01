@@ -1,4 +1,4 @@
-package com.tcfuc.community;
+package com.libra.community;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

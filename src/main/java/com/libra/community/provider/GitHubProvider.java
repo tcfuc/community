@@ -1,8 +1,8 @@
-package com.tcfuc.community.provider;
+package com.libra.community.provider;
 
 import com.alibaba.fastjson.JSON;
-import com.tcfuc.community.dto.AccessTokenDTO;
-import com.tcfuc.community.dto.GitHubUser;
+import com.libra.community.dto.AccessTokenDTO;
+import com.libra.community.dto.GitHubUser;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 

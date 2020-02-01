@@ -1,4 +1,4 @@
-package com.tcfuc.community.model;
+package com.libra.community.model;
 
 /**
  * @author zhou
