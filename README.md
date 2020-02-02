@@ -19,19 +19,21 @@
 [Flyway](https://flywaydb.org/getstarted/)
 
 ## 脚本
-`sql`
+`sql:`
 
-`create table USER
- (
+`create table USER (`
+ 
      ID           INT auto_increment primary key not null ,
      ACCOUNT_ID   VARCHAR(100),
      NAME         VARCHAR(50),
      TOKEN        CHAR(36),
      GMT_CREATE   BIGINT,
      GMT_MODIFIED BIGINT,
- );`
- 
- `alter table USER
-  	add bio varchar(256) null ;`
 
-`bash:mvn flyway:migrate`
+ `);`
+ 
+ `alter table USER add bio varchar(256) null ;`
+
+`bash:`
+
+`mvn flyway:migrate`
