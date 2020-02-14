@@ -1,13 +1,13 @@
 package com.libra.community.controller;
 
+import com.libra.community.dto.PaginationDTO;
 import com.libra.community.mapper.UserMapper;
-import com.libra.community.model.User;
+import com.libra.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -16,21 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
 
     @Autowired
-    private UserMapper userMapper;
+    private QuestionService questionService;
 
     @GetMapping("/")
-    public String index( HttpServletRequest request ) {
-        Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                User user = userMapper.findByToken(token);
-                if( user != null) {
-                    request.getSession().setAttribute("user", user);
-                }
-                break;
-            }
-        }
+    public String index(@RequestParam(name = "currentPage", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "2") Integer size,
+                        Model model) {
+//        返回问题列表
+        PaginationDTO paginationDTO = questionService.list(page, size);
+        model.addAttribute("paginationDTO", paginationDTO);
         return "index";
     }
 }

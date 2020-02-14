@@ -1,0 +1,33 @@
+body {
+    background-color: #efefef;
+}
+
+.main {
+    background-color: white;
+    margin: 45px;
+}
+
+.btn-publish {
+    float: right;
+    margin-bottom: 15px;
+}
+
+.media-object {
+    margin: 0;
+    padding: 0;
+    width: 50px;
+ }
+
+.img-rounded {
+    border-radius: 8px;
+}
+
+.text-desc {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+
+.profile .section{
+    margin-top: 35px;
+}
