@@ -24,18 +24,20 @@
 
             <div class="media" th:each=" question : ${paginationDTO.questions}">
                 <div class="media-left">
-                    <a href="#">
+                    <a th:href="@{'/question/'+${question.id}}">
                         <img class="media-object img-rounded"
                              th:src="${question.user.avatarUrl}" alt="...">
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
-                    <span th:text="${question.description}"></span> <br>
-                    <span class="text-desc">
+                    <a th:href="@{'/question/'+${question.id}}">
+                        <h4 class="media-heading" th:text="${question.title}"></h4>
+                        <span th:text="${question.description}"></span> <br>
+                        <span class="text-desc">
                         [[${question.commentCount}]] 个回复 · [[${question.viewCount}]] 次浏览 ·
                         发布时间 <span th:text="${#calendars.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
                     </span>
+                    </a>
                 </div>
             </div>
             <nav aria-label="Page navigation">
@@ -46,7 +48,8 @@
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showPrevious} == true">
-                        <a th:href="@{'/profile/'+${section}(currentPage = ${paginationDTO.currentPage - 1})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(currentPage = ${paginationDTO.currentPage - 1})}"
+                           aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
@@ -58,13 +61,15 @@
                     </li>
 
                     <li th:if="${paginationDTO.showNext} == true">
-                        <a th:href="@{'/profile/'+${section}(currentPage = ${paginationDTO.currentPage + 1})}" aria-label="Next">
+                        <a th:href="@{'/profile/'+${section}(currentPage = ${paginationDTO.currentPage + 1})}"
+                           aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
 
                     <li th:if="${paginationDTO.showEndPage} == true">
-                        <a th:href="@{'/profile/'+${section}(currentPage = ${paginationDTO.totalPage})}" aria-label="EndPage">
+                        <a th:href="@{'/profile/'+${section}(currentPage = ${paginationDTO.totalPage})}"
+                           aria-label="EndPage">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>

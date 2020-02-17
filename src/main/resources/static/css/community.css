@@ -2,6 +2,14 @@ body {
     background-color: #efefef;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 .main {
     background-color: white;
     margin: 45px;
@@ -16,7 +24,11 @@ body {
     margin: 0;
     padding: 0;
     width: 50px;
- }
+}
+
+.media-body a {
+    color: black;
+}
 
 .img-rounded {
     border-radius: 8px;
@@ -28,6 +40,6 @@ body {
     color: #999;
 }
 
-.profile .section{
+.profile .section {
     margin-top: 35px;
 }

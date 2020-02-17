@@ -5,13 +5,16 @@ import com.libra.community.dto.GitHubUser;
 import com.libra.community.mapper.UserMapper;
 import com.libra.community.model.User;
 import com.libra.community.provider.GitHubProvider;
+import com.libra.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -29,12 +32,12 @@ public class AuthorizeController {
     private String redirectUri;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @RequestMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletResponse response){
+                           HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -44,17 +47,15 @@ public class AuthorizeController {
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
 
-        if(gitHubUser != null){
+        if (gitHubUser != null) {
             User user = new User();
             String token = UUID.randomUUID().toString();
 
             user.setToken(token);
             user.setName(gitHubUser.getName());
             user.setAccountId(String.valueOf(gitHubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            user.setAvatarUrl("https://avatars2.githubusercontent.com/u/"+user.getAccountId()+"?v=4");
-            userMapper.insert(user);
+            user.setAvatarUrl("https://avatars2.githubusercontent.com/u/" + user.getAccountId() + "?v=4");
+            userService.createOrUpdate(user);
             //登录成功，写cookie
             response.addCookie(new Cookie("token", token));
 
@@ -65,5 +66,13 @@ public class AuthorizeController {
         }
     }
 
-
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
+    }
 }

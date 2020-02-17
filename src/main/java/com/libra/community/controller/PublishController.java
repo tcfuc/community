@@ -2,15 +2,18 @@ package com.libra.community.controller;
 
 import com.libra.community.mapper.QuestionMapper;
 import com.libra.community.model.Question;
+import com.libra.community.model.QuestionExample;
 import com.libra.community.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author zhou
@@ -56,15 +59,48 @@ public class PublishController {
             model.addAttribute("error", "用户未登录");
             return "publish";
         }
-//        插入问题
+//        插入或更新问题
+        Question checkQuestion = (Question) request.getSession().getAttribute("question");
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getAccountId());
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
-        questionMapper.create(question);
+        if (checkQuestion == null) {
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.insert(question);
+        } else {
+            question.setId(checkQuestion.getId());
+            question.setGmtModified(System.currentTimeMillis());
+
+            QuestionExample questionExample = new QuestionExample();
+            questionExample.createCriteria()
+                    .andIdEqualTo(question.getId());
+            questionMapper.updateByExampleSelective(question, questionExample);
+            request.getSession().removeAttribute("question");
+        }
         return "redirect:/";
+    }
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable("id") Integer id,
+                       HttpServletRequest request,
+                       Model model) {
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria()
+                .andIdEqualTo(id);
+        List<Question> questions = questionMapper.selectByExample(questionExample);
+        Question question = questions.get(0);
+        User user = (User) request.getSession().getAttribute("user");
+        if (user.getAccountId() == question.getCreator()) {
+            request.getSession().setAttribute("question", question);
+            model.addAttribute("title", question.getTitle());
+            model.addAttribute("description", question.getDescription());
+            model.addAttribute("tag", question.getTag());
+            return "publish";
+        } else {
+            return "redirect:/";
+        }
     }
 }

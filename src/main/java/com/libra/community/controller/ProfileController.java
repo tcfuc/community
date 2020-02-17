@@ -28,17 +28,17 @@ public class ProfileController {
                           @RequestParam(name = "currentPage", defaultValue = "1") Integer page,
                           @RequestParam(name = "size", defaultValue = "2") Integer size,
                           HttpServletRequest request,
-                          Model model){
-        if ("questions".equals(action)){
+                          Model model) {
+        if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的问题");
-        } else if ("replies".equals(action)){
+        } else if ("replies".equals(action)) {
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
         }
 
         User user = (User) request.getSession().getAttribute("user");
-        PaginationDTO paginationDTO = questionService.list(page, size, user.getAccountId());
+        PaginationDTO paginationDTO = questionService.listByAccountId(page, size, user.getAccountId());
         model.addAttribute("paginationDTO", paginationDTO);
         return "profile";
     }
