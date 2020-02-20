@@ -2,7 +2,6 @@ package com.libra.community.controller;
 
 import com.libra.community.dto.AccessTokenDTO;
 import com.libra.community.dto.GitHubUser;
-import com.libra.community.mapper.UserMapper;
 import com.libra.community.model.User;
 import com.libra.community.provider.GitHubProvider;
 import com.libra.community.service.UserService;
@@ -21,8 +20,14 @@ import java.util.UUID;
 @Controller
 public class AuthorizeController {
 
-    @Autowired
     private GitHubProvider gitHubProvider;
+    private UserService userService;
+
+    @Autowired
+    public void constructor ( GitHubProvider gitHubProvider, UserService userService){
+        this.gitHubProvider = gitHubProvider;
+        this.userService = userService;
+    }
 
     @Value("${github.client.id}")
     private String clientId;
@@ -30,9 +35,6 @@ public class AuthorizeController {
     private String clientSecret;
     @Value("${github.redirect.uri}")
     private String redirectUri;
-
-    @Autowired
-    private UserService userService;
 
     @RequestMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,

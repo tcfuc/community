@@ -2,6 +2,8 @@ package com.libra.community.service;
 
 import com.libra.community.dto.PaginationDTO;
 import com.libra.community.dto.QuestionDTO;
+import com.libra.community.exception.CustomizeErrorCode;
+import com.libra.community.exception.CustomizeException;
 import com.libra.community.mapper.QuestionMapper;
 import com.libra.community.mapper.UserMapper;
 import com.libra.community.model.Question;
@@ -10,10 +12,9 @@ import com.libra.community.model.User;
 import com.libra.community.model.UserExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.plugin2.main.server.Plugin;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,10 @@ import java.util.List;
 @Service
 public class QuestionService {
 
-    @Autowired
+    @Resource
     QuestionMapper questionMapper;
 
-    @Autowired
+    @Resource
     UserMapper userMapper;
 
     public PaginationDTO list(Integer currentPage, Integer size) {
@@ -80,6 +81,9 @@ public class QuestionService {
     public QuestionDTO getById(Integer id) {
         QuestionDTO questionDTO = new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         BeanUtils.copyProperties(question, questionDTO);
         UserExample userExample = new UserExample();
         userExample.createCriteria()

@@ -3,9 +3,9 @@ package com.libra.community.service;
 import com.libra.community.mapper.UserMapper;
 import com.libra.community.model.User;
 import com.libra.community.model.UserExample;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     public void createOrUpdate(User user) {

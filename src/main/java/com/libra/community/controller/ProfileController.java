@@ -20,8 +20,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ProfileController {
 
-    @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    public void constructor (QuestionService questionService){
+        this.questionService = questionService;
+    }
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable String action,

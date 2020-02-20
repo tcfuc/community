@@ -100,7 +100,7 @@
       This element was generated on Mon Feb 17 16:34:55 CST 2020.
     -->
     ID, TITLE, GMT_CREATE, GMT_MODIFIED, CREATOR, COMMENT_COUNT, VIEW_COUNT, LIKE_COUNT, 
-    TAG
+    TAG, DESCRIPTION
   </sql>
   <sql id="Blob_Column_List">
     <!--

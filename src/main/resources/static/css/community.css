@@ -43,3 +43,7 @@ a:hover {
 .profile .section {
     margin-top: 35px;
 }
+
+.jumbotron {
+    margin: 50px;
+}

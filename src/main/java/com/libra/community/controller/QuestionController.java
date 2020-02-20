@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class QuestionController {
 
+    private QuestionService questionService;
+
     @Autowired
-    QuestionService questionService;
+    public void constructor (QuestionService questionService){
+        this.questionService = questionService;
+    }
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable("id") Integer id,
