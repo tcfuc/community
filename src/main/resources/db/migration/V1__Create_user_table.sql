@@ -6,5 +6,6 @@ create table USER
     TOKEN        CHAR(36),
     GMT_CREATE   BIGINT,
     GMT_MODIFIED BIGINT,
-    AVATAR_URL   VARCHAR(100)
+    AVATAR_URL   VARCHAR(100),
+    BIO          VARCHAR(256)
 );

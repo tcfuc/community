@@ -2,18 +2,17 @@ package com.libra.community.controller;
 
 import com.libra.community.exception.CustomizeErrorCode;
 import com.libra.community.exception.CustomizeException;
-import com.libra.community.mapper.QuestionMapper;
 import com.libra.community.model.Question;
-import com.libra.community.model.QuestionExample;
 import com.libra.community.model.User;
+import com.libra.community.service.QuestionService;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -25,8 +24,12 @@ import java.util.List;
 @Controller
 public class PublishController {
 
-    @Resource
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
+
+    @Autowired
+    public void constructor(QuestionService questionService) {
+        this.questionService = questionService;
+    }
 
     @GetMapping("/publish")
     public String publish() {
@@ -62,41 +65,21 @@ public class PublishController {
             return "publish";
         }
 //        插入或更新问题
-        Question checkQuestion = (Question) request.getSession().getAttribute("question");
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getAccountId());
-        if (checkQuestion == null) {
-            question.setGmtCreate(System.currentTimeMillis());
-            question.setGmtModified(question.getGmtCreate());
-            questionMapper.insert(question);
-        } else {
-            question.setId(checkQuestion.getId());
-            question.setGmtModified(System.currentTimeMillis());
-
-            QuestionExample questionExample = new QuestionExample();
-            questionExample.createCriteria()
-                    .andIdEqualTo(question.getId());
-            int result = questionMapper.updateByExampleSelective(question, questionExample);
-            if (result != 1){
-                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
-            }
-            request.getSession().removeAttribute("question");
-        }
+        questionService.createOrUpdate(question, request);
         return "redirect:/";
     }
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable("id") Integer id,
+    public String edit(@PathVariable("id") Long id,
                        HttpServletRequest request,
                        Model model) {
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.createCriteria()
-                .andIdEqualTo(id);
-        List<Question> questions = questionMapper.selectByExample(questionExample);
-        if (questions.size() == 0){
+        List<Question> questions = questionService.listById(id);
+        if (questions.size() == 0) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         Question question = questions.get(0);

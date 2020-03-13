@@ -4,10 +4,19 @@ body {
 
 a {
     text-decoration: none;
+    cursor: pointer;
+}
+
+li {
+    list-style: none;
 }
 
 a:hover {
     text-decoration: none;
+}
+
+hr {
+    margin: 10px 0;
 }
 
 .main {
@@ -47,3 +56,78 @@ a:hover {
 .jumbotron {
     margin: 50px;
 }
+
+.comment-text-area {
+    margin: 12px 0;
+}
+
+.comment-user-name {
+    line-height: 30px;
+}
+
+.comment {
+    margin: 0;
+}
+
+.comment-comment-time {
+    color: #999;
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.menu .icon {
+    color: #999;
+    font-size: 14px;
+}
+
+.reply {
+    margin-top: 10px;
+    padding: 18px 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+}
+
+.reply .media-body a {
+    color: #155faa;
+}
+
+.reply ul li img {
+    width: 45px;
+}
+
+.text-color-999 {
+    font-size: 12px;
+    color: #999;
+}
+
+.tags span {
+    margin-right: 5px;
+    display: inline-block;
+    height: 24px;
+    line-height: 18px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.tags span a {
+    color: #fff;
+}
+
+.related-issues ul li {
+    padding: 4px 0;
+    font-size: 13px;
+}
+
+.related-issues ul li a {
+    color: #155faa;
+}
+
+.tag-nav-publish {
+
+}
+
+.tag-nav-publish .nav li a {
+    padding: 3px 8px;
+    font-size: 12px;
+}
+

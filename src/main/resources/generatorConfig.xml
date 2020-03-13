@@ -32,6 +32,10 @@
         </javaClientGenerator>
 
         <table tableName="user" domainObjectName="User"></table>
-        <table tableName="question" domainObjectName="Question"></table>
+        <table tableName="question" domainObjectName="Question">
+            <columnOverride column="description" jdbcType="VARCHAR" />
+        </table>
+        <table tableName="comment" domainObjectName="Comment"></table>
+        <table tableName="tag" domainObjectName="Tag"></table>
     </context>
 </generatorConfiguration>
