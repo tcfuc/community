@@ -86,14 +86,12 @@ function getReply(e) {
                     //     "</li>" +
                     //     "<hr>"
                     // );
-
                     var mediaElement = $("<div/>", {
                         "class": "media-left",
                     }).append($("<img/>", {
                         "class": "media-left",
                         "src": val.user.avatarUrl,
                     }));
-
                     var mediaComment = $("<div/>", {
                         "class": "media-body",
                     }).append($("<h6/>", {
@@ -112,23 +110,19 @@ function getReply(e) {
                         "class": "pull-right",
                         html: format(val.gmtCreate)
                     }))));
-
                     var li = $("<li/>", {
                         "class": "media",
                     }).append(mediaElement, mediaComment);
-
                     var hr = $("<hr/>");
-
                     media = $("<div/>").append(li, hr);
-
                     $(".reply" + id).append(media);
-                    if ($(collapseReplyId).attr('class') == "collapse") {
-                        $(collapseReplyId).attr("class", "collapse in");
-                    }
-                    // if ($(collapseReplyId).attr('class') == "collapsing") {
-                    //     $(collapseReplyId).attr("class", "collapse in");
-                    // }
-                })
+                });
+                if ($(collapseReplyId).attr('class') == "collapse") {
+                    $(collapseReplyId).attr("class", "collapse in");
+                }
+                // if ($(collapseReplyId).attr('class') == "collapsing") {
+                //     $(collapseReplyId).attr("class", "collapse in");
+                // }
                 // $(".reply" + id).append(items.join(""));
             } else {
                 if (response.code == "2003") {
