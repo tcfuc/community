@@ -2,9 +2,7 @@ package com.libra.community.controller;
 
 import com.libra.community.dto.CommentDTO;
 import com.libra.community.dto.QuestionDTO;
-import com.libra.community.dto.ResultDTO;
 import com.libra.community.enums.CommentTypeEnum;
-import com.libra.community.model.Question;
 import com.libra.community.service.CommentService;
 import com.libra.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;

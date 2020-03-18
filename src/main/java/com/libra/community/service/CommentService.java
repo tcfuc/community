@@ -2,6 +2,8 @@ package com.libra.community.service;
 
 import com.libra.community.dto.CommentDTO;
 import com.libra.community.enums.CommentTypeEnum;
+import com.libra.community.enums.NotificationEnum;
+import com.libra.community.enums.NotificationStatusEnum;
 import com.libra.community.exception.CustomizeErrorCode;
 import com.libra.community.exception.CustomizeException;
 import com.libra.community.mapper.*;
@@ -36,20 +38,27 @@ public class CommentService {
     @Resource
     private QuestionExtMapper questionExtMapper;
 
+    @Resource
+    private NotificationMapper notificationMapper;
+
     @Transactional
     public void insert(Comment comment) {
+//判空parentID
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
+//判空type
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.COMMENT_TYPE_PARAM_WRONG);
         }
-        if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
+// 判断回复类型
+        if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
             //回复评论
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            createNotify(comment, dbComment.getCommentator(), NotificationEnum.REPLY_COMMENT);
         } else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -58,10 +67,12 @@ public class CommentService {
             }
             question.setCommentCount(1);
             questionExtMapper.incCommentCount(question);
+            createNotify(comment, question.getCreator(), NotificationEnum.REPLY_QUESTION);
         }
         commentMapper.insert(comment);
     }
 
+    //通过id获取评论
     public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
@@ -73,15 +84,15 @@ public class CommentService {
         List<CommentDTO> commentDTOS = new ArrayList<>();
 
         if (comments != null && comments.size() != 0) {
-//        拉姆达表达式 获取去重的用户AccountId
+            //拉姆达表达式 获取去重的用户AccountId
             List<String> accountIds = comments.stream().map(Comment::getCommentator).distinct().collect(Collectors.toList());
-//        获取评论人并转为Map
+            //获取评论人并转为Map
             UserExample userExample = new UserExample();
             userExample.createCriteria()
                     .andAccountIdIn(accountIds);
             List<User> users = userMapper.selectByExample(userExample);
-            Map<String, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getAccountId(), user -> user));
-//        转换comment为commentDTO
+            Map<String, User> userMap = users.stream().collect(Collectors.toMap(User::getAccountId, user -> user));
+            //转换comment为commentDTO
             commentDTOS = comments.stream().map(comment -> {
                 CommentDTO commentDTO = new CommentDTO();
                 BeanUtils.copyProperties(comment, commentDTO);
@@ -89,28 +100,25 @@ public class CommentService {
                 return commentDTO;
             }).collect(Collectors.toList());
         }
-
-//        for循环方法
-//        List<CommentDTO> commentDTOs = new ArrayList<>();
-//        for (Comment comment : comments) {
-//            UserExample userExample = new UserExample();
-//            userExample.createCriteria()
-//                    .andAccountIdEqualTo(comment.getCommentator());
-//            User user = userMapper.selectByExample(userExample).get(0);
-//            if (user != null){
-//                CommentDTO commentDTO = new CommentDTO();
-//                commentDTO.setUser(user);
-//                BeanUtils.copyProperties(comment, commentDTO);
-//                commentDTOs.add(commentDTO);
-//            }
-//        }
         return commentDTOS;
     }
 
-    public void incCommentCount(Long id){
+    //评论数加一
+    public void incCommentCount(Long id) {
         Comment comment = new Comment();
         comment.setId(id);
         comment.setCommentCount(1);
         commentExtMapper.incCommentCount(comment);
+    }
+
+    public void createNotify(Comment comment, String receiver, NotificationEnum type){
+        Notification notification = new Notification();
+        notification.setNotifier(comment.getCommentator());
+        notification.setReceiver(receiver);
+        notification.setOuterid(comment.getParentId());
+        notification.setType(type.getType());
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notificationMapper.insert(notification);
     }
 }

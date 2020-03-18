@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 public class PaginationDTO {
     private List<QuestionDTO> questions;
+    private List<NotificationDTO> notifications;
     private boolean showPrevious;
     private boolean showNext;
     private boolean showFirstPage;

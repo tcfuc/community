@@ -92,6 +92,7 @@ function getReply(e) {
                         "class": "media-left",
                         "src": val.user.avatarUrl,
                     }));
+
                     var mediaComment = $("<div/>", {
                         "class": "media-body",
                     }).append($("<h6/>", {
@@ -102,7 +103,7 @@ function getReply(e) {
                         "class": "pull-right",
                     }).append($("<a/>", {
                         "href": "",
-                        html: "回复",
+                        // html: "回复",
                     }))), ($("<h6/>", {}).append($("<span/>", {
                         "class": "pull-left",
                         html: val.content,
@@ -110,13 +111,16 @@ function getReply(e) {
                         "class": "pull-right",
                         html: format(val.gmtCreate)
                     }))));
+
                     var li = $("<li/>", {
                         "class": "media",
                     }).append(mediaElement, mediaComment);
+
                     var hr = $("<hr/>");
                     media = $("<div/>").append(li, hr);
                     $(".reply" + id).append(media);
                 });
+
                 if ($(collapseReplyId).attr('class') == "collapse") {
                     $(collapseReplyId).attr("class", "collapse in");
                 }

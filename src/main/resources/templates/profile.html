@@ -22,7 +22,7 @@
             </h2>
             <hr>
 
-            <div class="media" th:each=" question : ${paginationDTO.questions}">
+            <div class="media" th:each=" question : ${paginationDTO.questions}" th:if="${section} == 'questions'">
                 <div class="media-left">
                     <a th:href="@{'/question/'+${question.id}}">
                         <img class="media-object img-rounded"
@@ -40,7 +40,19 @@
                     </a>
                 </div>
             </div>
-            <nav aria-label="Page navigation">
+
+            <div th:each=" notification : ${paginationDTO.notifications}" th:if="${section} == 'replies'">
+                <div>
+                    <a href="" th:text="${notification.user.name}"></a>
+                    <span th:text="${notification.type}"></span>
+                    <a th:href="@{'/question/'+${notification.question.id}}" th:text="${notification.question.title}"></a>
+                </div>
+                <div>
+                    回复时间 <span th:text="${#calendars.format(notification.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                </div>
+                <hr>
+            </div>
+            <nav aria-label="Page navigation" th:if="${paginationDTO.currentPage} != 0">
                 <ul class="pagination">
                     <li th:if="${paginationDTO.showFirstPage} == true">
                         <a th:href="@{'/profile/'+${section}(currentPage = 1)}"
@@ -81,7 +93,6 @@
             <div class="list-group section">
                 <a href="/profile/questions"
                    th:class="${section} == 'questions'  ? 'list-group-item active' : 'list-group-item'">
-                    <span class="badge">14</span>
                     我的问题
                 </a>
                 <a href="/profile/replies"

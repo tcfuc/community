@@ -37,7 +37,8 @@
                 <div class="tags">
                     <span class="label label-primary" th:each="tag : ${question.tags}">
                         <span class="glyphicon glyphicon-tags"></span>
-                        <a href="">[[${tag}]]</a>
+<!--                        <a href="#">[[${tag}]]</a>-->
+                        <span>[[${tag}]]</span>
                     </span>
                 </div>
                 <div th:if="${session.user != null && session.user.accountId != null && session.user.accountId == question.creator}">

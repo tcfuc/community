@@ -6,8 +6,8 @@
 <generatorConfiguration>
     <context id="H2Tables" targetRuntime="MyBatis3">
 
-        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
-
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
+        <!--配置数据库链接-->
         <jdbcConnection driverClass="org.h2.Driver"
                         connectionURL="jdbc:h2:~/libra"
                         userId="sa"
@@ -17,25 +17,27 @@
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
-
+        <!--配置Model路径-->
         <javaModelGenerator targetPackage="com.libra.community.model" targetProject="src\main\java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
-
+        <!--配置Mapper路径-->
         <sqlMapGenerator targetPackage="mapper" targetProject="src\main\resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-
+        <!--生成对应Mapper接口类-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.libra.community.mapper" targetProject="src\main\java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="user" domainObjectName="User"></table>
+        <!--配置表-->
+        <table tableName="user" domainObjectName="User"/>
         <table tableName="question" domainObjectName="Question">
-            <columnOverride column="description" jdbcType="VARCHAR" />
+            <columnOverride column="description" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="comment" domainObjectName="Comment"></table>
-        <table tableName="tag" domainObjectName="Tag"></table>
+        <table tableName="comment" domainObjectName="Comment"/>
+        <table tableName="tag" domainObjectName="Tag"/>
+        <table tableName="notification" domainObjectName="Notification"/>
     </context>
 </generatorConfiguration>
