@@ -39,7 +39,8 @@ function comment2target(id, content, type) {
             } else {
                 if (response.code == "2003") {
                     if (window.confirm(response.message)) {
-                        window.open("https://github.com/login/oauth/authorize?client_id=f51d72d04928cbffcfac&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
+                        // window.open("https://github.com/login/oauth/authorize?client_id=f51d72d04928cbffcfac&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
+                        window.open("https://github.com/login/oauth/authorize?client_id=f51d72d04928cbffcfac&redirect_uri=http://47.103.223.240/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", "true");
                     }
                 } else {
@@ -131,7 +132,8 @@ function getReply(e) {
             } else {
                 if (response.code == "2003") {
                     if (window.confirm(response.message)) {
-                        window.open("https://github.com/login/oauth/authorize?client_id=f51d72d04928cbffcfac&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
+                        // window.open("https://github.com/login/oauth/authorize?client_id=f51d72d04928cbffcfac&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
+                        window.open("https://github.com/login/oauth/authorize?client_id=f51d72d04928cbffcfac&redirect_uri=http://47.103.223.240/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", "true");
                     }
                 } else {
