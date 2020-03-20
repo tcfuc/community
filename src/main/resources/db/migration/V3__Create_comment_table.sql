@@ -3,7 +3,7 @@ create table comment
 	id bigint auto_increment,
 	parent_id bigint,
 	type int,
-	commentator int,
+	commentator commentator varchar(100),
 	content varchar(1024),
 	comment_count int default 0,
 	gmt_modified bigint,
