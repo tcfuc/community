@@ -5,7 +5,7 @@ create table question
 	description text,
 	gmt_create bigint,
 	gmt_modified bigint,
-	creator VARCHAR(100),
+	creator varchar(100),
 	comment_count int default 0,
 	view_count int default 0,
 	like_count int default 0,

@@ -1,9 +1,9 @@
-create table TAG
+create table tag
 (
-    ID           INT identity (1,1) primary key not null,
-    ACCOUNT_ID   VARCHAR(100),
-    TAG         VARCHAR(50),
-    TAG_TYPE     INT,
-    GMT_CREATE   BIGINT,
-    GMT_MODIFIED BIGINT
+    id           int identity (1,1) primary key not null,
+    account_id   varchar(100),
+    tag         varchar(50),
+    tag_type     int,
+    gmt_create   bigint,
+    gmt_modified bigint
 );

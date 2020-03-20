@@ -1,2 +1,2 @@
-alter table QUESTION drop column ID;
-alter table QUESTION add ID int IDENTITY (1,1) PRIMARY KEY;
+alter table question drop id;
+alter table question add id int identity (1,1) primary key;
