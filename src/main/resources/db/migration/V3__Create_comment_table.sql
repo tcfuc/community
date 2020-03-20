@@ -1,6 +1,6 @@
 create table comment
 (
-	id bigint auto_increment,
+	id bigint auto_increment primary key,
 	parent_id bigint,
 	type int,
 	commentator varchar(100),
