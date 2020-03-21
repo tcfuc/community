@@ -23,7 +23,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(@RequestParam(name = "currentPage", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "2") Integer size,
+                        @RequestParam(name = "size", defaultValue = "7") Integer size,
                         Model model) {
 //        返回问题列表
         PaginationDTO paginationDTO = questionService.list(page, size);

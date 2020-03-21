@@ -34,7 +34,7 @@ public class ProfileController {
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable String action,
                           @RequestParam(name = "currentPage", defaultValue = "1") Integer page,
-                          @RequestParam(name = "size", defaultValue = "2") Integer size,
+                          @RequestParam(name = "size", defaultValue = "5") Integer size,
                           HttpServletRequest request,
                           Model model) {
         User user = (User) request.getSession().getAttribute("user");
