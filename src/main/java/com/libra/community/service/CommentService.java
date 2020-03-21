@@ -58,6 +58,7 @@ public class CommentService {
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            incCommentCount(comment.getParentId());
             createNotify(comment, dbComment.getCommentator(), NotificationEnum.REPLY_COMMENT);
         } else {
             //回复问题
@@ -107,7 +108,7 @@ public class CommentService {
     public void incCommentCount(Long id) {
         Comment comment = new Comment();
         comment.setId(id);
-        comment.setCommentCount(1);
+        comment.setCommentCount(1);;
         commentExtMapper.incCommentCount(comment);
     }
 
