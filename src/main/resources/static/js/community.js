@@ -164,7 +164,37 @@ function format(timestamp) {
 }
 
 
-function getTags() {
+function show() {
+    let tag = $(".dropdown-menu");
+    let dropDown = $(".dropdown");
+    if (tag.is('.show')){
+        tag.removeClass('show');
+    } else {
+        tag.addClass('show');
+    }
+    $(document).on('click', function(e){
+        if(!dropDown.is(e.target) && dropDown.has(e.target).length === 0){
+            tag.removeClass('show');
+        }
+    });
+}
 
+function addTag(e) {
+    $(e).clone(false).removeAttr("onclick","addTag").attr("onclick","removeTag(this)").appendTo('#tagList').append("&times;");
+    splitTag();
+}
+
+function removeTag(e) {
+    $(e).remove();
+}
+
+function splitTag() {
+    let tagArray = new Array();
+    $("#tagList").each(function () {
+        const reg = new RegExp('×',"g");
+        tagArray.push($(this).text().replace(reg,","));
+    });
+    let tags = tagArray.join('');
+    $('#tag').attr('value',tags);
 }
 

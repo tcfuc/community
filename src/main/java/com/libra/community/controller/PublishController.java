@@ -5,6 +5,7 @@ import com.libra.community.exception.CustomizeException;
 import com.libra.community.model.Question;
 import com.libra.community.model.User;
 import com.libra.community.service.QuestionService;
+import com.libra.community.service.TagService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +27,17 @@ public class PublishController {
 
     private QuestionService questionService;
 
+    private TagService tagService;
+
     @Autowired
-    public void constructor(QuestionService questionService) {
+    public void constructor(QuestionService questionService, TagService tagService) {
         this.questionService = questionService;
+        this.tagService = tagService;
     }
 
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tags", tagService.getTags());
         return "publish";
     }
 
@@ -45,6 +50,7 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tags", tagService.getTags());
 //        空值判断
         if (title == null || title.equals("")) {
             model.addAttribute("error", "标题不能为空");
@@ -71,6 +77,7 @@ public class PublishController {
         question.setTag(tag);
         question.setCreator(user.getAccountId());
         questionService.createOrUpdate(question, request);
+
         return "redirect:/";
     }
 
@@ -78,6 +85,7 @@ public class PublishController {
     public String edit(@PathVariable("id") Long id,
                        HttpServletRequest request,
                        Model model) {
+        model.addAttribute("tags", tagService.getTags());
         List<Question> questions = questionService.listById(id);
         if (questions.size() == 0) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);

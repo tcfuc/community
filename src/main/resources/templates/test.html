@@ -29,6 +29,28 @@
             data-content="And here's some amazing content. It's very engaging. Right?">点我弹出/隐藏弹出框
     </button>
 
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                aria-haspopup="true" aria-expanded="true" onclick="show()">
+            Dropdown
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dropdownTag">
+            <li><a href="#">Action</a></li>
+        </ul>
+    </div>
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                aria-haspopup="false" aria-expanded="true">
+            Dropdown
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#">Action</a></li>
+        </ul>
+    </div>
+
     <div class="tag-nav-publish" >
         <!-- Nav tabs -->
         <ul class="nav nav-pills " role="tablist">
@@ -60,10 +82,23 @@
 </html>
 
 <script>
-    $(function () {
-        $('[data-toggle="popover"]').popover({
-            html : true,
-
-        })
-    })
+    function show() {
+        let tag = $("#dropdownTag");
+        let dropDown = $(".dropdown");
+        if (tag.is('.show')){
+            tag.removeClass('show');
+        } else {
+            tag.addClass('show');
+        }
+        $(document).on('click', function(e){
+            // 方法1
+            //    if($(':not(.pop)')){
+            //      pop.hide();
+            //    }
+            // 方法2
+            if(!dropDown.is(e.target) && dropDown.has(e.target).length === 0){
+                tag.removeClass('show');
+            }
+        });
+    }
 </script>

@@ -126,8 +126,26 @@ hr {
 
 }
 
-.tag-nav-publish .nav li a {
-    padding: 3px 8px;
-    font-size: 12px;
+.tag-nav-publish ul{
+    padding: 0px 3px;
 }
 
+.tag-nav-publish .nav li a {
+    padding: 4px 10px;
+    font-size: 14px;
+}
+
+.tab-tag{
+    padding: 3px 7px;
+    margin: 2px 2px;
+    font-size: 12px;
+    background-color: steelblue;
+}
+
+.show {
+    display: block;
+}
+
+.clearPadding {
+    padding: 0px 0px;
+}

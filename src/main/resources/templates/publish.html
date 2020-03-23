@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:replace="~{ navifation :: nav}"></div>
@@ -30,9 +31,39 @@
                               th:text="${description}"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="tag">添加标签：</label>
-                    <input name="tag" id="tag" type="text" class="form-control" placeholder="输入标签，以，分隔"
-                           th:value="${tag}">
+                    <label>添加标签：</label>
+                    <Br>
+                    <input name="tag" id="tag" type="text" value="" hidden="hidden">
+                    <div class="col-lg-12 clearPadding" id="tagList"></div>
+                    <div class="col-lg-12 clearPadding">
+                        <div class="dropdown col-lg-5 pull-left clearPadding">
+                        <button class="btn btn-primary btn-sm" type="button" id="dropdownMenu"
+                                aria-haspopup="true" aria-expanded="false" onclick="show()">
+                            添加标签
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                            <div class="tag-nav-publish">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-pills " role="tablist" >
+                                    <li role="presentation" th:each="tagList1 : ${tags}">
+                                        <a th:href="'#'+${tagList1.tagTypeEN}"
+                                           th:aria-controls="${tagList1.tagTypeEN}" role="tab"
+                                           data-toggle="pill" th:text="${tagList1.tagTypeCN}">
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content" >
+                                    <div role="tabpanel" class="tab-pane fade  col-lg-12" th:id="${tagList2.tagTypeEN}" th:each="tagList2 : ${tags}">
+                                        <a class="label label-primary pull-left tab-tag" th:text="${tag1.tag}"
+                                           th:each=" tag1 : ${tagList2.tag}" onclick="addTag(this);"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    </div>
                 </div>
                 <div class="alert alert-danger col-lg-2 col-md-12 col-sm-12 col-xs-12" role="alert"
                      th:if="${error} != null" th:text="${error}"></div>
@@ -45,10 +76,13 @@
             <br>
             •问题补充：详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关的资料: <br>
             <br>
-            •选择标签:选择一个或者多个合适的标签，用逗号隔开，不超过10个字 <br>
+            •选择标签:选择一个或者多个合适的标签,再次编辑时需重新编辑标签 <br>
         </div>
     </div>
 </div>
 
 </body>
+
+<script>
+</script>
 </html>
