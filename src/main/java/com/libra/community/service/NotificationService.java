@@ -4,11 +4,13 @@ import com.libra.community.dto.NotificationDTO;
 import com.libra.community.dto.PaginationDTO;
 import com.libra.community.dto.QuestionDTO;
 import com.libra.community.enums.NotificationEnum;
+import com.libra.community.enums.NotificationStatusEnum;
 import com.libra.community.mapper.NotificationMapper;
 import com.libra.community.mapper.QuestionMapper;
 import com.libra.community.mapper.UserMapper;
 import com.libra.community.model.*;
 import org.apache.ibatis.session.RowBounds;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +74,32 @@ public class NotificationService {
         paginationDTO.setNotifications(notificationDTOList);
 
         return paginationDTO;
+    }
+
+    public Long countNotification(String receiver) {
+        NotificationExample notificationExample = new NotificationExample();
+        notificationExample.createCriteria()
+                .andReceiverEqualTo(receiver)
+                .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
+        return notificationMapper.countByExample(notificationExample);
+    }
+
+    public void updateNotificationStatus(String receiver) {
+        NotificationExample notificationExample = new NotificationExample();
+        notificationExample.createCriteria()
+                .andReceiverEqualTo(receiver);
+        Notification notification = new Notification();
+        notification.setStatus(NotificationStatusEnum.READ.getStatus());
+        notificationMapper.updateByExampleSelective(notification, notificationExample);
+    }
+
+    public void updateNotificationStatuByQuestionId(String receiver, Long questionId) {
+        NotificationExample notificationExample = new NotificationExample();
+        notificationExample.createCriteria()
+                .andReceiverEqualTo(receiver)
+                .andOuteridEqualTo(questionId);
+        Notification notification = new Notification();
+        notification.setStatus(NotificationStatusEnum.READ.getStatus());
+        notificationMapper.updateByExampleSelective(notification, notificationExample);
     }
 }

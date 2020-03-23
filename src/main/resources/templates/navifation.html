@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
 <div th:fragment="nav">
@@ -25,12 +26,12 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<!--                <form class="navbar-form navbar-left">-->
-<!--                    <div class="form-group">-->
-<!--                        <input type="text" class="form-control" placeholder="搜索问题">-->
-<!--                    </div>-->
-<!--                    <button type="submit" class="btn btn-default">搜索</button>-->
-<!--                </form>-->
+                <!--                <form class="navbar-form navbar-left">-->
+                <!--                    <div class="form-group">-->
+                <!--                        <input type="text" class="form-control" placeholder="搜索问题">-->
+                <!--                    </div>-->
+                <!--                    <button type="submit" class="btn btn-default">搜索</button>-->
+                <!--                </form>-->
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${session.user != null}">
                         <a href="/publish" target="_Self" role="button" th:text="提问"><span
@@ -39,7 +40,7 @@
                     <li th:if="${session.user != null}">
                         <a href="/profile/replies">
                             回复
-<!--                            <span class="badge">14</span>-->
+                            <span class="badge" th:text="${session.totalNotification}"></span>
                         </a>
                     </li>
                     <li class="dropdown" th:if="${session.user != null}">
@@ -54,8 +55,7 @@
                         </ul>
                     </li>
                     <li th:unless="${session.user != null}">
-                        <a th:href="@{https://github.com/login/oauth/authorize(client_id='f51d72d04928cbffcfac',redirect_uri=${#httpServletRequest.getRequestURL()+'callback'},scope='user',state=1)}">登录</a>
-<!--                        <a th:href="@{https://github.com/login/oauth/authorize(client_id='b7da8aa9383060c40554',redirect_uri=${#httpServletRequest.getRequestURL()+'callback'},scope='user',state=1)}">登录</a>-->
+                        <a th:href="@{https://github.com/login/oauth/authorize(client_id=${@environment.getProperty('github.client.id')},redirect_uri=${#httpServletRequest.getRequestURL()+'callback'},scope='user',state=1)}">登录</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->

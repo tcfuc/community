@@ -26,7 +26,7 @@ public class ProfileController {
     private NotificationService notificationService;
 
     @Autowired
-    public void constructor (QuestionService questionService, NotificationService notificationService){
+    public void constructor(QuestionService questionService, NotificationService notificationService) {
         this.questionService = questionService;
         this.notificationService = notificationService;
     }
@@ -47,6 +47,8 @@ public class ProfileController {
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
             paginationDTO = notificationService.listByReceiver(page, size, user.getAccountId());
+            notificationService.updateNotificationStatus(user.getAccountId());
+            request.getSession().setAttribute("totalNotification", notificationService.countNotification(user.getAccountId()));
         }
 
         model.addAttribute("paginationDTO", paginationDTO);
