@@ -165,8 +165,8 @@ function format(timestamp) {
 
 
 function show() {
-    let tag = $(".dropdown-menu");
-    let dropDown = $(".dropdown");
+    let tag = $(".dropdownTag");
+    let dropDown = $(".tagDiv");
     if (tag.is('.show')){
         tag.removeClass('show');
     } else {

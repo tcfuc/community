@@ -38,6 +38,7 @@ public class NotificationService {
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()
                 .andReceiverEqualTo(receiver);
+        notificationExample.setOrderByClause("gmt_create desc");
         PaginationDTO paginationDTO = page(notificationExample, currentPage, size);
         return paginationDTO;
     }
