@@ -133,7 +133,7 @@
                 <version>6.2.1</version>
                 <configuration>
                     <baselineOnMigrate>true</baselineOnMigrate>
-                    <url>jdbc:mariadb://47.103.223.240:3306/libra?useUnicode=true</url>
+                    <url>jdbc:mariadb://39.100.195.17:3306/libra?useUnicode=true</url>
                     <user>root</user>
                     <password>root</password>
                 </configuration>
